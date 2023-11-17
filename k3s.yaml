@@ -1,0 +1,34 @@
+- name: K3s master node install
+  hosts: master
+  gather_facts: false
+  become: true
+  tasks:
+
+    - name: Install K3s
+      ansible.builtin.shell: >-
+        curl -sfL https://get.k3s.io | sh -
+
+    - name: Get node token.
+      ansible.builtin.command: cat /var/lib/rancher/k3s/server/node-token
+      changed_when: false
+      register: node_token_output
+
+    - name: Set node_token fact.
+      ansible.builtin.set_fact:
+        node_token: "{{ node_token_output.stdout_lines[0] }}"
+
+- name: Configure the worker nodes.
+  hosts: nodes
+  gather_facts: false
+  become: true
+  tasks:
+
+    - name: Install K3s on worker nodes
+      ansible.builtin.shell: >-
+        curl -sfL https://get.k3s.io | K3S_URL=https://{{ groups['master'][0] }}:6443 K3S_TOKEN={{ hostvars[groups['master'][0]]['node_token'] }} sh -
+
+- name: Set up Helm.
+  import_playbook: helm.yaml
+  tags: ['helm']
+
+node_token_output.stdout_lines
