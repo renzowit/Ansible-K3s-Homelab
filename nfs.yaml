@@ -1,0 +1,25 @@
+- name: Setup nfs shared storage for K3s cluster
+  hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+
+    - name: Installing NFS client packages
+      ansible.builtin.apt:
+        name: nfs-common
+        state: present
+
+    - name: Create directory for mount
+      ansible.builtin.file:
+        path: /mnt/share
+        state: directory
+        mode: '0755'
+
+    - name: Mounting NFS share
+      ansible.posix.mount:
+        src: 192.168.2.105:/volume1/share
+        path: /mnt/share
+        opts: rw,sync,hard
+        boot: true
+        state: mounted
+        fstype: nfs

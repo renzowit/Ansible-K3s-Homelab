@@ -30,5 +30,3 @@
 - name: Set up Helm.
   import_playbook: helm.yaml
   tags: ['helm']
-
-node_token_output.stdout_lines
