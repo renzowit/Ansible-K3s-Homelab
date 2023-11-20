@@ -2,7 +2,7 @@
   hosts: all
   gather_facts: false
   become: true
-
-  handlers:
+  tasks:
+  
     - name: reboot-pi
       ansible.builtin.reboot:
