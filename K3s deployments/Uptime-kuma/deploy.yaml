@@ -4,21 +4,31 @@
   become: true
   tasks:
 
+    - name: Create directory for manifest files
+      ansible.builtin.file:
+        path: ~/manifests/uptime-kuma
+        state: directory
+        mode: '0755'
+
+    - name: Copy .yaml files to the directory
+      ansible.builtin.copy:
+        src: /home/rens/k3s_manifests/uptime_kuma/
+        dest: ~/manifests/uptime-kuma
+
     - name: Create persistent storage
       ansible.builtin.shell: >-
         kubectl apply -f pvc.yaml
       args:
-        chdir: /home/rens/k3s_manifests/uptime_kuma/
+        chdir: ~/manifests/uptime-kuma
 
     - name: Create deployment
       ansible.builtin.shell: >-
         kubectl apply -f deployment.yaml
       args:
-        chdir: /home/rens/k3s_manifests/uptime_kuma/
+        chdir: ~/manifests/uptime-kuma
 
     - name: Create nodeport service
       ansible.builtin.shell: >-
         kubectl apply -f nodeport.yaml
       args:
-        chdir: /home/rens/k3s_manifests/uptime_kuma/
-
+        chdir: ~/manifests/uptime-kuma
