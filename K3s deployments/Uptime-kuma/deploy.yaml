@@ -4,9 +4,21 @@
   become: true
   tasks:
 
-    - name: Create namespace
-      kubernetes.core.k8s:
-        name: testing
-        api_version: v1
-        kind: Namespace
-        state: present
+    - name: Create persistent storage
+      ansible.builtin.shell: >-
+        kubectl apply -f pvc.yaml
+      args:
+        chdir: /home/rens/k3s_manifests/uptime_kuma/
+
+    - name: Create deployment
+      ansible.builtin.shell: >-
+        kubectl apply -f deployment.yaml
+      args:
+        chdir: /home/rens/k3s_manifests/uptime_kuma/
+
+    - name: Create nodeport service
+      ansible.builtin.shell: >-
+        kubectl apply -f nodeport.yaml
+      args:
+        chdir: /home/rens/k3s_manifests/uptime_kuma/
+
