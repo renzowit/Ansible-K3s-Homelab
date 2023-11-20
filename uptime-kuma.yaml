@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uptime-kuma
+  namespace: kuma
+  labels:
+    app: uptime-kuma
+spec:
+  selector:
+    matchLabels:
+      app: uptime-kuma
+  replicas: 1 # Number of replicas
+  template:
+    metadata:
+      labels:
+        app: uptime-kuma
+    spec:
+      containers:
+      - name: uptime-kuma # Name of the container
+        image: louislam/uptime-kuma:latest # The image you want to run
+        ports:
+        # Ports are the ports that your application uses.
+        - containerPort: 3001 # The port that your application uses
+        volumeMounts:
+        # VolumeMounts are the volumes that your application uses.
+        - mountPath: /app/data # The path that your application uses
+          name: vol0 # Name of the volume
+      volumes:
+      # Volumes are the persistent storage that your application uses.
+      - name: vol0 # Name of the volume
+        persistentVolumeClaim:
+          claimName: pvc0 # Name of the persistent volume claim
