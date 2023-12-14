@@ -9,5 +9,5 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: 3000
-      nodePort: 31000  # Specify the NodePort (adjust if needed)
-  type: NodePort  # Expose externally using NodePort
+      nodePort: 31000
+  type: NodePort

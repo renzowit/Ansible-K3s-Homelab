@@ -4,5 +4,5 @@
   become: true
   tasks:
   
-    - name: reboot-pi
+    - name: Reboot entire cluster
       ansible.builtin.reboot:
