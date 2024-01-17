@@ -7,5 +7,5 @@
     - name: apt-get update && apt-get upgrade
       ansible.builtin.apt:
         name: "*"
-        state: present
-        update_cache: latest
+        state: latest
+        update_cache: true
