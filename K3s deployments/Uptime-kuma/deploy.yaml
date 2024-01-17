@@ -15,7 +15,7 @@
         src: /home/rens/k3s_manifests/uptime_kuma/
         dest: ~/manifests/uptime-kuma
 
-    - name: Create persistent storage
+    - name: Execute .yaml files
       ansible.builtin.shell: >-
         kubectl apply -f uptime-kuma/
       args:
