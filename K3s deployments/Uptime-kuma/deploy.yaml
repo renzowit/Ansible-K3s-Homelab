@@ -17,18 +17,6 @@
 
     - name: Create persistent storage
       ansible.builtin.shell: >-
-        kubectl apply -f pvc.yaml
+        kubectl apply -f uptime-kuma/
       args:
-        chdir: ~/manifests/uptime-kuma
-
-    - name: Create deployment
-      ansible.builtin.shell: >-
-        kubectl apply -f deployment.yaml
-      args:
-        chdir: ~/manifests/uptime-kuma
-
-    - name: Create nodeport service
-      ansible.builtin.shell: >-
-        kubectl apply -f nodeport.yaml
-      args:
-        chdir: ~/manifests/uptime-kuma
+        chdir: ~/manifests/
