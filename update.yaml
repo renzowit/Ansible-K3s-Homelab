@@ -1,0 +1,11 @@
+- name: Update OS with latest packages
+  hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+
+    - name: apt-get update && apt-get upgrade
+      ansible.builtin.apt:
+        name: upgrade
+        state: present
+        update_cache: yes
