@@ -1,0 +1,11 @@
+- name: Add Semaphore user with root privileges
+  hosts: all
+  become: yes
+  tasks:
+    - name: Add user semaphore
+      user:
+        name: semaphore
+        password: "{{ 'password' | password_hash('sha512') }}"  # Replace 'password' with the actual password
+        shell: /bin/bash
+        groups: sudo
+        append: yes
